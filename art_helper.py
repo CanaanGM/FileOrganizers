@@ -27,10 +27,12 @@ class ImagesHelper():
             if not os.path.isdir(destination):
                 os.mkdir(destination)
                 # runs either powershell or bash command
-            powershell_cmd = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_images.ps1 {source} {destination}" ]
-            subprocess.call(powershell_cmd)
+            move_images = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_images.ps1 {source} {destination}" ]
+            move_animated = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_animated.ps1 {source} {destination}" ]
+            subprocess.call(move_images)
+            subprocess.call(move_animated)
         
-
+    @property
     def open_at_random(self) -> None:
         """opens a random image in given file tree"""
         current_os = platform.system()
@@ -75,5 +77,5 @@ class ImagesHelper():
 
 if __name__ == "__main__":
     image_helper = ImagesHelper(win_dir=consts.BASE_FOLDER_WIN, wsl_dir=consts.BASE_FOLDER_WSL)
-    image_helper.open_at_random()
+    # image_helper.open_at_random()
     image_helper.organize("C:\\Users\\Sol\\Desktop","D:\\references")
