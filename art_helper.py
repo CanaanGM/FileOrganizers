@@ -1,6 +1,4 @@
 from datetime import datetime
-from email.mime import image
-from msilib.schema import Error
 import pprint
 import consts
 import subprocess , os, platform, random
@@ -39,6 +37,16 @@ class ImagesHelper():
                 return True
             except Exception:
                 pprint.pprint("some thing went wrong in organizing the images ;=;")
+                return False
+
+        elif current_os == "Linux" or current_os == "Darwin":
+            try:
+                if not os.path.isdir(destination):
+                    os.mkdir(destination)
+
+                exit_code = subprocess.Popen(["./commands/move_images.sh", "-s/home/terra/", "-d/home/terra/references" ])
+                return True
+            except:
                 return False
         
     @property
