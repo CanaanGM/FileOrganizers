@@ -44,55 +44,58 @@ class ImagesHelper():
                 if not os.path.isdir(destination):
                     os.mkdir(destination)
 
-                exit_code = subprocess.Popen(["./commands/move_images.sh", "-s/home/terra/", "-d/home/terra/references" ])
+                exit_code = subprocess.Popen(["./commands/move_images.sh", f"-s{source}", f"-d{destination}" ])
                 return True
             except:
                 return False
         
-    @property
-    def open_at_random(self) -> None:
+
+    def open_at_random(self, source: str) -> None:
         """opens a random image in given file tree"""
         current_os = platform.system()
         if current_os == "Windows":
-            image_folder = random.choice(os.listdir(self.win_dir))
+            image_folder = random.choice(os.listdir(source))
             img_base = image_folder 
             a = ""
             print(a)
             from PIL import Image
             try:
-                while os.path.isdir(f"{self.win_dir}\\{a}\\"):
+                while os.path.isdir(f"{source}\\{a}\\"):
                     if (os.path.isfile(a)):
                         break
-                    a = random.choice(os.listdir(f"{self.win_dir}\\{image_folder}\\"))
-                file = os.path.join(f"{self.win_dir}\{img_base}\\{a}") 
+                    a = random.choice(os.listdir(f"{source}\\{image_folder}\\"))
+                file = os.path.join(f"{source}\{img_base}\\{a}") 
                 # spwan a process
                 Image.open(file).show()
             except NotADirectoryError:
-                file = os.path.join(f"{self.win_dir}\{image_folder}") 
+                file = os.path.join(f"{source}\{image_folder}") 
                 Image.open(file).show()
 
         elif current_os == "Linux" or current_os == "Darwin":
             # TODO: wsl is acting up, leaving for later ;-;
-            image_folder = random.choice(os.listdir(self.wsl_dir))
+            image_folder = random.choice(os.listdir(source))
             img_base = image_folder 
             a = ""
             print(a)
             from PIL import Image
             try:
-                while os.path.isdir(f"{self.wsl_dir}\\{a}\\"):
+                while os.path.isdir(f"{source}/{a}/"):
                     if (os.path.isfile(a)):
                         break
-                    a = random.choice(os.listdir(f"{self.wsl_dir}\\{image_folder}\\"))
-                file = os.path.join(f"{self.wsl_dir}\{img_base}\\{a}") 
+                    a = random.choice(os.listdir(f"{source}/{image_folder}/"))
+                file = os.path.join(f"{source}/{img_base}/{a}") 
                 Image.open(file).show()
             except NotADirectoryError:
-                file = os.path.join(f"{self.wsl_dir}\{image_folder}") 
+                file = os.path.join(f"{source}/{image_folder}") 
                 Image.open(file).show()   
 
 
 
 
 if __name__ == "__main__":
+    
     image_helper = ImagesHelper(win_dir=consts.BASE_FOLDER_WIN, wsl_dir=consts.BASE_FOLDER_WSL)
-    # image_helper.open_at_random
-    image_helper.organize("C:\\Users\\Sol\\Desktop","D:\\references")
+    # image_helper.open_at_random("D:\\references" )
+    # image_helper.organize("C:\\Users\\Sol\\Desktop","D:\\references")
+    image_helper.open_at_random("/home/terra/references" )
+    # image_helper.organize("/home/terra/","/home/terra/references")
