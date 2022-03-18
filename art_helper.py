@@ -1,5 +1,7 @@
+from datetime import datetime
 from email.mime import image
 from msilib.schema import Error
+import pprint
 import consts
 import subprocess , os, platform, random
 
@@ -23,14 +25,21 @@ class ImagesHelper():
             # checks os 
         current_os = platform.system()
         if current_os == "Windows":   
-            # if theres a folder cool else create it 
-            if not os.path.isdir(destination):
-                os.mkdir(destination)
-                # runs either powershell or bash command
-            move_images = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_images.ps1 {source} {destination}" ]
-            move_animated = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_animated.ps1 {source} {destination}" ]
-            subprocess.call(move_images)
-            subprocess.call(move_animated)
+            try:
+
+                # if theres a folder cool else create it 
+                if not os.path.isdir(destination):
+                    os.mkdir(destination)
+                    # runs either powershell or bash command
+                move_images = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_images.ps1 {source} {destination}" ]
+                move_animated = ["PowerShell", "-ExecutionPolicy", "Unrestricted",f"./commands/move_animated.ps1 {source} {destination}" ]
+                subprocess.call(move_images)
+                subprocess.call(move_animated)
+                pprint.pprint("Organized~!")
+                return True
+            except Exception:
+                pprint.pprint("some thing went wrong in organizing the images ;=;")
+                return False
         
     @property
     def open_at_random(self) -> None:
@@ -77,5 +86,5 @@ class ImagesHelper():
 
 if __name__ == "__main__":
     image_helper = ImagesHelper(win_dir=consts.BASE_FOLDER_WIN, wsl_dir=consts.BASE_FOLDER_WSL)
-    # image_helper.open_at_random()
+    # image_helper.open_at_random
     image_helper.organize("C:\\Users\\Sol\\Desktop","D:\\references")
