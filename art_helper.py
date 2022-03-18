@@ -1,15 +1,9 @@
-from datetime import datetime
-import pprint
-import consts
 import subprocess, os, platform, random
 
 # TODO: make this into a package for future ease of use :D
 
 
 class ImagesHelper:
-    def __init__(self, win_dir: str, wsl_dir: str) -> None:
-        self.win_dir, self.wsl_dir = win_dir, wsl_dir
-
     def __repr__(self) -> str:
         return f"""
             {self} is an art helper class.
@@ -53,10 +47,10 @@ class ImagesHelper:
                 ]
                 subprocess.call(move_images)
                 subprocess.call(move_animated)
-                pprint.pprint("Organized~!")
+                print("Organized~!")
                 return True
             except Exception:
-                pprint.pprint("some thing went wrong in organizing the images ;=;")
+                print("some thing went wrong in organizing the images ;=;")
                 return False
 
         elif current_os == "Linux" or current_os == "Darwin":
@@ -67,8 +61,10 @@ class ImagesHelper:
                 subprocess.Popen(
                     ["./commands/move_images.sh", f"-s{source}", f"-d{destination}"]
                 )
+                print("Organized~!")
                 return True
-            except:
+            except Exception:
+                print("some thing went wrong in organizing the images ;=;")
                 return False
 
     def open_at_random(self, source: str) -> None:
@@ -121,10 +117,8 @@ class ImagesHelper:
 
 if __name__ == "__main__":
 
-    image_helper = ImagesHelper(
-        win_dir=consts.BASE_FOLDER_WIN, wsl_dir=consts.BASE_FOLDER_WSL
-    )
+    image_helper = ImagesHelper( )
     # image_helper.open_at_random("D:\\references" )
     # image_helper.organize("C:\\Users\\Sol\\Desktop","D:\\references")
-    image_helper.open_at_random("/home/terra/references")
+    # image_helper.open_at_random("/home/terra/references")
     # image_helper.organize("/home/terra/","/home/terra/references")
