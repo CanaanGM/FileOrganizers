@@ -119,6 +119,6 @@ if __name__ == "__main__":
 
     image_helper = ImagesHelper( )
     # image_helper.open_at_random("D:\\references" )
-    # image_helper.organize("C:\\Users\\Sol\\Desktop","D:\\references")
+    image_helper.organize(r"C:\Users\canaa\Desktop","D:\\references")
     # image_helper.open_at_random("/home/terra/references")
     # image_helper.organize("/home/terra/","/home/terra/references")
