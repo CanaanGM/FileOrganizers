@@ -3,7 +3,7 @@ import subprocess, os, platform, click
 # TODO: make this into a package for future ease of use :D
 
 @click.command()
-@click.option('--source', help="Where the images u wanna move are located")
+@click.option('--source',default=r"C:\Users\canaa\Desktop", help="Where the images u wanna move are located")
 @click.option('--destination', default=r"D:\references", help="Where to move the images")
 def organize( source: str, destination: str) -> bool:
     """
