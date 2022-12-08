@@ -1,6 +1,16 @@
 import platform, subprocess, os
 
 def organize_images(source :str,  destination: str) -> bool:
+    """calls the respective shell script for each OS to organize the images.
+
+    Args:
+        source (str): the source directory with th images u want removed
+        destination (str): the target directory in which the images will be moved
+
+    Returns:
+        bool: Not used really, maybe can use for error handling down the line
+    """
+
     current_os = platform.system()
     if current_os == "Windows":
         try:
