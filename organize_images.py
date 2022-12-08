@@ -1,5 +1,5 @@
-import subprocess, os, platform, click
-
+import os, click
+from oranize_via_shell import organize_images as shell_orginize
 # TODO: make this into a package for future ease of use :D
 
 @click.command()
@@ -21,45 +21,7 @@ def organize( source: str, destination: str) -> bool:
     bool
     If the operationg had any exceptions or not.
     """
-    current_os = platform.system()
-    if current_os == "Windows":
-        try:
-            if not os.path.isdir(destination):
-                os.mkdir(destination)
-            move_images = [
-                "PowerShell",
-                "-ExecutionPolicy",
-                "Unrestricted",
-                f"./commands/move_images.ps1 {source} {destination}",
-            ]
-            move_animated = [
-                "PowerShell",
-                "-ExecutionPolicy",
-                "Unrestricted",
-                f"./commands/move_animated.ps1 {source} {destination}",
-            ]
-            subprocess.call(move_images)
-            subprocess.call(move_animated)
-            print("Organized~!")
-            return True
-        except Exception:
-            print("some thing went wrong in organizing the images ;=;")
-            return False
-
-    elif current_os == "Linux" or current_os == "Darwin":
-        try:
-            if not os.path.isdir(destination):
-                os.mkdir(destination)
-
-            subprocess.Popen(
-                ["./commands/move_images.sh", f"-s{source}", f"-d{destination}"]
-            )
-            print("Organized~!")
-            return True
-        except Exception:
-            print("some thing went wrong in organizing the images ;=;")
-            return False
-
+    shell_orginize(source=source, destination=destination)
 
 
 
