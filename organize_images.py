@@ -1,5 +1,6 @@
-import os, click
+import os, click, sys
 from oranize_via_shell import organize_images as shell_orginize
+from organization_via_python import organize_images as python_organize
 # TODO: make this into a package for future ease of use :D
 
 @click.command()
@@ -21,9 +22,10 @@ def organize( source: str, destination: str) -> bool:
     bool
     If the operationg had any exceptions or not.
     """
-    shell_orginize(source=source, destination=destination)
-
+    # shell_orginize(source=source, destination=destination)
+    python_organize(source=source, destination=destination)
 
 
 if __name__ == "__main__":
     organize()
+    sys.exit(0)
