@@ -1,8 +1,9 @@
-import random, os, platform, click
+import random, os, click, sys 
+from pathlib import Path
 
-@click.command()
-@click.option('--source', default=r"D:\references", help="Where the images are")
-def open_at_random( source: str) -> None:
+
+
+def open_at_random( image_dir_path: str) -> None:
     """
     Opens a random image in given file directory
 
@@ -11,44 +12,44 @@ def open_at_random( source: str) -> None:
     source : str
         path to the directory housing the images you want opened.
     """
-    current_os = platform.system()
-    if current_os == "Windows":
-        image_folder = random.choice(os.listdir(source))
-        img_base = image_folder
-        a = ""
-        print(a)
-        from PIL import Image
+    base_directory = [
+        folder_path for folder_path in Path(image_dir_path).iterdir()
+        if folder_path.is_dir()
+    ]
 
-        try:
-            while os.path.isdir(f"{source}\\{a}\\"):
-                if os.path.isfile(a):
-                    break
-                a = random.choice(os.listdir(f"{source}\\{image_folder}\\"))
-            file = os.path.join(f"{source}\{img_base}\\{a}")
-            # spwan a process
-            Image.open(file).show()
-        except NotADirectoryError:
-            file = os.path.join(f"{source}\{image_folder}")
-            Image.open(file).show()
+    supported_extensions = ["jpg", "png", "gif", "jpeg", "avif", "apneg"]
+    all_files_in_dir = []
+    all_images = []
 
-    elif current_os == "Linux" or current_os == "Darwin":
-        image_folder = random.choice(os.listdir(source))
-        img_base = image_folder
-        a = ""
-        print(a)
-        from PIL import Image
+    for folder_path in base_directory:
+        all_files_in_dir.extend(folder_path.glob("**/*"))
 
-        try:
-            while os.path.isdir(f"{source}/{a}/"):
-                if os.path.isfile(a):
-                    break
-                a = random.choice(os.listdir(f"{source}/{image_folder}/"))
-            file = os.path.join(f"{source}/{img_base}/{a}")
-            Image.open(file).show()
-        except NotADirectoryError:
-            file = os.path.join(f"{source}/{image_folder}")
-            Image.open(file).show()
+    if all_files_in_dir:
+        all_images.extend(
+            file_path for file_path in all_files_in_dir
+            if file_path.suffix[1:] in supported_extensions
+        )
 
+        random_image_index = random.randint(0, len(all_images) - 1)
+        random_image_path = all_images[random_image_index]
+
+        if os.name == "nt":
+            os.startfile(random_image_path)
+        elif os.name == "posix":
+            os.system(f"xdg-open {random_image_path}")
+        elif os.name == "mac":
+            os.system(f"open {random_image_path}")
+
+        return True
+
+    return False
+
+
+@click.command()
+@click.option('--source', default=r"E:\development", help="Where the images are")
+def main(source: str):
+    open_at_random(source)
 
 if __name__ == "__main__":
-    open_at_random()
+    main()
+    sys.exit()
