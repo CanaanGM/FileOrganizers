@@ -794,4 +794,5 @@ FodyWeavers.xsd
 .history
 .ionide
 
+.vscode
 # End of https://www.toptal.com/developers/gitignore/api/visuals
