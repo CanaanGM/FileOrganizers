@@ -12,17 +12,28 @@ def open_at_random( image_dir_path: str) -> None:
     source : str
         path to the directory housing the images you want opened.
     """
+    #! if there's subfolders
     base_directory = [
         folder_path for folder_path in Path(image_dir_path).iterdir()
         if folder_path.is_dir()
     ]
+    subfolders : bool = True
+
+    #! if there's no subfolders to iter thru
+    if len(base_directory) <= 0:
+        base_directory = [ folder_path for folder_path in Path(image_dir_path).iterdir()]
+        subfolders = False
 
     supported_extensions = ["jpg", "png", "gif", "jpeg", "avif", "apneg"]
     all_files_in_dir = []
     all_images = []
 
-    for folder_path in base_directory:
-        all_files_in_dir.extend(folder_path.glob("**/*"))
+    #! this will combine all images from all subfolders into one iterable
+    if subfolders:
+        for folder_path in base_directory:
+            all_files_in_dir.extend(folder_path.glob("**/*"))
+    else:
+        all_files_in_dir.extend(base_directory)
 
     if all_files_in_dir:
         all_images.extend(
@@ -44,11 +55,13 @@ def open_at_random( image_dir_path: str) -> None:
 
     return False
 
-
 @click.command()
-@click.option('--source', default=r"E:\development", help="Where the images are")
+@click.option('--source', '-s', default=r"D:\references\random", help="Where the images are")
 def main(source: str):
     open_at_random(source)
+    sys.exit()
+
+
 
 if __name__ == "__main__":
     main()
