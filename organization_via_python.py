@@ -4,24 +4,23 @@ import shutil
 from typing import List
 
 def organize_images(source: str, destination: str) -> None:
+    """takes images from the `source` and throws them into `destination`
 
-
+    Args:
+        source (str): Path of the directory in which the images live
+        destination (str): Path of the directory where u want the images to be
+    """ 
     source_dir_files = os.listdir(source)
-
     animated_dir = path.join(destination, "animated")
     normal_dir = path.join(destination, "random")
 
     for dir_ in (destination, animated_dir, normal_dir):
         _create_dir_if_doesnt_exist(dir_)
 
-
     # Iterate over the files in the source directory
     for file_name in source_dir_files:
         # Get the full path of the file
-
-
         file_path = path.join(source, file_name)
-
 
         images_extensions = ["jpg" , "png", "jpeg"]
         animated_images_extensions = ["gif", "apng", "avif"]
