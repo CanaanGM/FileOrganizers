@@ -3,14 +3,19 @@
 /// delete them recursivly; as to make sure nothing of them remains
 const DIRS_TO_REMOVE: [&str; 4] = ["node_modules", "target", "bin", "obj"];
 const BASE_DIR: &str = "E:/development"; // this should be dynamic
+                                         // const StringBaseDir: String = String::from("E:/development");
+use std::{env, fs, path::*};
 
-use std::{fs, path::*};
 fn main() {
-    let path = Path::new(BASE_DIR);
+    let args: Vec<String> = env::args().collect();
+    let dir_path = args.get(1).expect("Please provide a directory path.");
+
+    println!("{:?}", args);
+    let path = Path::new(dir_path); //Path::new(BASE_DIR);
 
     println!("Greetings");
     println!("Cleaning {:?}", path);
-    let dir_path = BASE_DIR;
+    // let dir_path = BASE_DIR;
     remove_dirs(Path::new(dir_path)).unwrap();
 }
 
