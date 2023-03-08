@@ -1,2 +1,4 @@
 Pillow
 click
+python-vlc
+rich
